@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:7.0
+    container_name: auth-mongodb
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin123
+      MONGO_INITDB_DATABASE: auth-app
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js
+    networks:
+      - auth-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: auth-backend
+    restart: unless-stopped
+    environment:
+      MONGODB_URI: mongodb://admin:admin123@mongodb:27017/auth-app?authSource=admin
+      JWT_SECRET: ${JWT_SECRET:-your-super-secret-jwt-key-change-this-in-production}
+      PORT: 3001
+      FRONTEND_URL: http://localhost
+      NODE_ENV: ${NODE_ENV:-production}
+    ports:
+      - "3001:3001"
+    depends_on:
+      - mongodb
+    networks:
+      - auth-network
+    volumes:
+      - ./backend/logs:/app/logs
+
+volumes:
+  mongodb_data:
+
+networks:
+  auth-network:
+    driver: bridge
