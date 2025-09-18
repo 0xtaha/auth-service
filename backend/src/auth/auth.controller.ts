@@ -1,4 +1,4 @@
-import { Controller, Post, Body, UseGuards, Get, Request } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, Get, Request, Headers, HttpCode } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { SignUpDto } from './dto/sign-up.dto';
@@ -31,11 +31,27 @@ export class AuthController {
   @ApiOperation({ summary: 'User login' })
   @ApiResponse({ status: 200, description: 'User successfully logged in' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @HttpCode(200)
   async signIn(@Body() signInDto: SignInDto, @Request() req) {
     this.logger.log('User signin attempt', { email: signInDto.email });
     const result = await this.authService.signIn(req.user);
     this.logger.log('User successfully signed in', { userId: req.user.id });
     return result;
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('logout')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Logout user and invalidate token' })
+  @ApiResponse({ status: 200, description: 'User successfully logged out' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @HttpCode(200)  // Only applies to successful responses
+  async logout(@Request() req, @Headers('authorization') auth: string) {
+    const token = auth?.replace('Bearer ', '');
+    this.logger.log('User logout attempt', { userId: req.user.id });
+    await this.authService.logout(req.user.id, token);
+    this.logger.log('User successfully logged out', { userId: req.user.id });
+    return { message: 'Successfully logged out' };
   }
 
   @UseGuards(JwtAuthGuard)
@@ -46,6 +62,6 @@ export class AuthController {
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   async getProfile(@Request() req) {
     this.logger.log('Profile access', { userId: req.user.id });
-    return req.user;
+    return { "email" : req.user.email , "name" : req.user.name};
   }
 }

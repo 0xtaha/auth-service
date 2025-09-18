@@ -22,7 +22,3 @@ export class BlacklistedToken {
 }
 
 export const BlacklistedTokenSchema = SchemaFactory.createForClass(BlacklistedToken);
-
-// Indexes
-BlacklistedTokenSchema.index({ token: 1 });
-BlacklistedTokenSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });

@@ -1,7 +1,7 @@
 import { Injectable, LoggerService as NestLoggerService } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Log, LogDocument } from './schemas/log.schema';
+import { Log, LogDocument } from '../schemas/log.schema';
 import * as winston from 'winston';
 
 @Injectable()
