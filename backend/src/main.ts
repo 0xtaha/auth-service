@@ -5,6 +5,7 @@ import helmet from 'helmet';
 import { AppModule } from './app.module';
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
 import { WinstonModule } from './logger/winston.module';
+import { SanitizeInterceptor } from './common/interceptors/sanitize.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -37,17 +38,25 @@ async function bootstrap() {
     });
 
 
-  // Validation
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
       transform: true,
       forbidNonWhitelisted: true,
+      transformOptions: {
+        enableImplicitConversion: true,
+      },
+      disableErrorMessages: false,
+      validationError: {
+        value: true, // Don't expose values in error messages
+      },
     }),
   );
 
-  // Global interceptors
-  app.useGlobalInterceptors(new LoggingInterceptor());
+  app.useGlobalInterceptors(
+    new SanitizeInterceptor(),
+    new LoggingInterceptor(),
+  );
 
   // API prefix
   app.setGlobalPrefix('api');

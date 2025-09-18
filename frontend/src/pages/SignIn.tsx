@@ -59,27 +59,39 @@ const SignIn = () => {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
-      <Box
-        sx={{
-          marginTop: 8,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}
-      >
+    <Box
+      sx={{
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+      }}
+    >
+      <Container component="main" maxWidth="xs">
         <Paper
-          elevation={3}
+          elevation={6}
           sx={{
             padding: 4,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            width: '100%',
-            borderRadius: 2,
+            borderRadius: 3,
+            backgroundColor: 'rgba(255, 255, 255, 0.98)',
           }}
         >
-          <Typography component="h1" variant="h4" sx={{ mb: 3, fontWeight: 600 }}>
+          <Typography 
+            component="h1" 
+            variant="h4" 
+            sx={{ 
+              mb: 3, 
+              fontWeight: 600,
+              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+              backgroundClip: 'text',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+            }}
+          >
             Sign In
           </Typography>
           <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 1, width: '100%' }}>
@@ -93,10 +105,11 @@ const SignIn = () => {
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
-                    <Email />
+                    <Email color="action" />
                   </InputAdornment>
                 ),
               }}
+              sx={{ mb: 2 }}
             />
             <TextField
               fullWidth
@@ -109,7 +122,7 @@ const SignIn = () => {
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
-                    <Lock />
+                    <Lock color="action" />
                   </InputAdornment>
                 ),
                 endAdornment: (
@@ -120,28 +133,45 @@ const SignIn = () => {
                   </InputAdornment>
                 ),
               }}
+              sx={{ mb: 2 }}
             />
             <Button
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2, py: 1.5 }}
+              size="large"
+              sx={{ 
+                mt: 3, 
+                mb: 2, 
+                py: 1.5,
+                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                '&:hover': {
+                  background: 'linear-gradient(135deg, #5a67d8 0%, #6b4699 100%)',
+                }
+              }}
               disabled={isLoading}
             >
-              {isLoading ? <CircularProgress size={24} /> : 'Sign In'}
+              {isLoading ? <CircularProgress size={24} color="inherit" /> : 'Sign In'}
             </Button>
-            <Box sx={{ textAlign: 'center' }}>
-              <Typography variant="body2">
+            <Box sx={{ textAlign: 'center', mt: 2 }}>
+              <Typography variant="body2" color="text.secondary">
                 Don't have an account?{' '}
-                <Link to="/signup" style={{ color: '#4ECDC4' }}>
+                <Link 
+                  to="/signup" 
+                  style={{ 
+                    color: '#764ba2', 
+                    textDecoration: 'none',
+                    fontWeight: 500 
+                  }}
+                >
                   Sign Up
                 </Link>
               </Typography>
             </Box>
           </Box>
         </Paper>
-      </Box>
-    </Container>
+      </Container>
+    </Box>
   );
 };
 

@@ -6,9 +6,11 @@ import { SignInDto } from './dto/sign-in.dto';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { LoggerService } from '../logger/logger.service';
+import { XssGuard } from './guards/xss.guard';
 
 @ApiTags('Authentication')
 @Controller('auth')
+@UseGuards(XssGuard)
 export class AuthController {
   constructor(
     private authService: AuthService,
