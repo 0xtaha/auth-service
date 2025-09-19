@@ -43,8 +43,8 @@ cd auth-service
 
 2. Create environment file:
 ```bash
-cp nestjs-backend/.env.example nestjs-backend/.env
-cp react-front-end/.env.example react-front-end/.env
+cp backend/.env.example backend/.env
+cp frontend/.env.example frontend/.env
 ```
 
 3. Build and run with Docker Compose:
@@ -64,7 +64,7 @@ The application will be available at:
 
 1. Navigate to backend directory:
 ```bash
-cd nestjs-backend
+cd backend
 ```
 
 2. Install dependencies:
@@ -98,7 +98,7 @@ npm run start:prod  # Production
 
 1. Navigate to frontend directory:
 ```bash
-cd react-front-end
+cd frontend
 ```
 
 2. Install dependencies:
@@ -263,14 +263,14 @@ The application implements comprehensive logging that:
 
 #### Backend
 ```bash
-cd nestjs-backend
+cd backend
 npm run build
 npm run start:prod
 ```
 
 #### Frontend
 ```bash
-cd react-front-end
+cd frontend
 npm run build
 # Serve dist folder with any static file server
 ```
