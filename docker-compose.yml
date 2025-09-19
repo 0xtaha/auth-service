@@ -16,6 +16,11 @@ services:
       - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js
     networks:
       - auth-network
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/auth-app --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   backend:
     build:
@@ -32,11 +37,35 @@ services:
     ports:
       - "3001:3001"
     depends_on:
-      - mongodb
+      mongodb:
+        condition: service_healthy
     networks:
       - auth-network
     volumes:
       - ./backend/logs:/app/logs
+    # healthcheck: # adding healthcheck endpoint is required first
+    #   test: ["CMD", "curl", "-f", "http://localhost:3001/api/health"]
+    #   interval: 30s
+    #   timeout: 10s
+    #   retries: 3
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - VITE_API_URL=/api
+    container_name: auth-frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on: 
+      - backend
+    networks:
+      - auth-network
+    environment:
+      - NGINX_HOST=localhost
+      - NGINX_PORT=80
 
 volumes:
   mongodb_data:

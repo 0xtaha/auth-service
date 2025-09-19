@@ -4,7 +4,6 @@ import react from '@vitejs/plugin-react'
 export default defineConfig(({ mode }) => {
   // Load env file based on mode (development, production)
   const env = loadEnv(mode, process.cwd(), '')
-
   return {
     plugins: [react()],
     server: {
@@ -15,6 +14,19 @@ export default defineConfig(({ mode }) => {
           changeOrigin: true,
         }
       }
-    }
+    },
+    build: {
+    outDir: 'dist',
+    sourcemap: false,
+    chunkSizeWarningLimit: 1600,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom', 'react-router-dom'],
+          mui: ['@mui/material', '@emotion/react', '@emotion/styled'],
+        },
+      },
+    },
+  },
   }
 })
