@@ -116,58 +116,7 @@ cp .env.example .env
 npm run dev  # Development
 npm run build && npm run preview  # Production
 ```
-
-## 📁 Project Structure
-
-```
-.
-├── docker-compose.yml
-├── init-mongo.js
-├── README.md
-│
-├── react-front-end/
-│   ├── src/
-│   │   ├── components/
-│   │   │   └── ProtectedRoute.tsx
-│   │   ├── contexts/
-│   │   │   └── AuthContext.tsx
-│   │   ├── pages/
-│   │   │   ├── SignIn.tsx
-│   │   │   ├── SignUp.tsx
-│   │   │   └── Dashboard.tsx
-│   │   ├── App.tsx
-│   │   └── main.tsx
-│   ├── Dockerfile
-│   ├── nginx.conf
-│   └── package.json
-│
-└── nestjs-backend/
-    ├── src/
-    │   ├── auth/
-    │   │   ├── auth.controller.ts
-    │   │   ├── auth.service.ts
-    │   │   ├── auth.module.ts
-    │   │   ├── dto/
-    │   │   ├── guards/
-    │   │   └── strategies/
-    │   ├── users/
-    │   │   ├── users.service.ts
-    │   │   ├── users.module.ts
-    │   │   ├── schemas/
-    │   │   └── dto/
-    │   ├── logger/
-    │   │   ├── logger.service.ts
-    │   │   ├── logger.module.ts
-    │   │   └── schemas/
-    │   ├── common/
-    │   │   └── interceptors/
-    │   ├── app.module.ts
-    │   └── main.ts
-    ├── Dockerfile
-    └── package.json
-```
-
-## 🔐 API Endpoints
+## API Endpoints
 
 ### Authentication
 
@@ -288,7 +237,7 @@ Authorization: Bearer <jwt-token>
 }
 ```
 
-## 📊 Logging
+## Logging
 
 The application implements comprehensive logging that:
 - Logs all API requests with response times
@@ -297,7 +246,7 @@ The application implements comprehensive logging that:
 - Tracks user actions and authentication attempts
 - Provides console output and file storage
 
-## 🔒 Security Features
+## Security Features
 
 - **Password Hashing**: Bcrypt with salt rounds
 - **JWT Tokens**: Secure token-based authentication
@@ -307,24 +256,8 @@ The application implements comprehensive logging that:
 - **Environment Variables**: Sensitive data in .env files
 - **Protected Routes**: JWT guard for authenticated endpoints
 
-## 🧪 Testing
 
-### Backend Testing
-```bash
-cd nestjs-backend
-npm run test        # Unit tests
-npm run test:e2e    # E2E tests
-npm run test:cov    # Coverage report
-```
-
-### Frontend Testing
-```bash
-cd react-front-end
-npm run test        # Run tests
-npm run test:watch  # Watch mode
-```
-
-## 🚀 Deployment
+## Deployment
 
 ### Production Build
 
@@ -351,7 +284,7 @@ docker-compose -f docker-compose.yml build
 docker-compose -f docker-compose.yml up -d
 ```
 
-## 🛠️ Development
+## Development
 
 ### Running in Development Mode
 
@@ -362,13 +295,13 @@ docker run -d -p 27017:27017 mongo:7.0
 
 2. Start Backend (with hot reload):
 ```bash
-cd nestjs-backend
+cd backend
 npm run start:dev
 ```
 
 3. Start Frontend (with hot reload):
 ```bash
-cd react-front-end
+cd frontend
 npm run dev
 ```
 
@@ -384,7 +317,7 @@ npm run dev
 #### Frontend (.env)
 - `VITE_API_URL`: Backend API URL
 
-## 📚 Technology Stack
+## Technology Stack
 
 ### Frontend
 - **React 18**: UI library
@@ -412,13 +345,5 @@ npm run dev
 - **Docker**: Containerization
 - **Docker Compose**: Multi-container orchestration
 - **Nginx**: Web server for frontend
-
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
 
 **Note**: Remember to change the JWT secret and database credentials before deploying to production!
